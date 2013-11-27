@@ -20,28 +20,29 @@ def todo_parse(line):
 	return node
 
 def get_tasks(tree):
-    """Takes tree, returns list of tasks
-    task = {"what": [], "when": []}
-    """
-    tasks = []
-    def _list(node, what, when):
-        if node["type"] == "what":
-            what.append(node["text"])
 
-        elif node["type"] == "when":
-            when.append(node["text"])
+	"""Takes tree, returns list of tasks
+	task = {"what": [], "when": []}
+	"""
+	tasks = []
+	def _list(node, what, when):
+		if node["type"] == "what":
+			what.append(node["text"])
 
+		elif node["type"] == "when":
+			when.append(node["text"])
 
-        if not "children" in node.keys():
-            tasks.append({"what": what, "when": when})
-            return
+		if not "children" in node.keys():
+			if len(what) == 0:
+				return
+			tasks.append({"what": what, "when": when})
+			return
 
-        for child in node['children']:
-            _when = when.copy()
-            _what = what.copy()
-            _list(child, _what, _when)
+		for child in node['children']:
+			_when = when.copy()
+			_what = what.copy()
+			_list(child, _what, _when)
 
-    for child in tree["children"]:
-        _list(child, [], [])
-    return tasks
-
+	for child in tree["children"]:
+		_list(child, [], [])
+	return tasks
