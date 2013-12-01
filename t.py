@@ -25,25 +25,56 @@ def main():
 
         string = ' '.join(task["when"]) #concat temporals
 
+        today = datetime.date.today()
+        tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+
         if string == "ASAP":
             line_color = "cyan"
             line_attrs.append("blink")
             task["score"] = float("inf")
-        elif string == "Today":
-            line_color = "red"
-            task["score"] = 1.0/datetime.datetime.today().toordinal()
-        elif string == "Later":
-            line_color = "blue"
-            task["score"] = float("-inf")
         else:
-            splitted = string.split(' ')
-            try:
-                month = int(splitted[0])
-                day = int(splitted[1])
+            year = datetime.datetime.today().year;
 
-                task["score"] = 1.0/datetime.datetime(datetime.datetime.today().year, month, day).toordinal()
-            except:
-                task["score"] = 0
+            def populatedata():
+                nonlocal string, line_color, line_highlight, line_attrs, tomorrow, today
+                month =  None
+                day = None
+                try:
+                    month = int(task["when"][0])
+                    day = int(task["when"][1])
+                except:
+                    if string == "Later":
+                        task["score"] = float("-inf");
+                        line_color = "blue"
+                        return
+                    if string == "Today":
+                        month = today.month
+                        day = today.day
+                    elif string == "Tomorrow":
+                        month = tomorrow.month
+                        day = tomorrow.day
+                if month == None and day == None:
+                    task["score"] = 0
+                else:
+                    date = datetime.date(year, month, day)
+                    if date == today:
+                        line_color = "red"
+                        if string != "Today":
+                            date += datetime.timedelta(days=1)
+                            string = "Today"
+                    elif date == tomorrow:
+                        line_color = "yellow"
+                        if string !="Tomorrow":
+                            date += datetime.timedelta(days=1)
+                            string = "Tomorrow"
+                    else:
+                        inbetween = date - today
+                        string = "In {} days".format(inbetween.days)
+                    task["score"] = 1.0/date.toordinal()
+            populatedata();
+
+                    
+
         string = string + '\t\t'
         what = task["what"].copy()
         what[-1] = colored(task["what"][-1],"green")
@@ -55,7 +86,7 @@ def main():
         for task in sorted(tasks, key=lambda task: task["score"], reverse=True):
             print(task["string"])
     else:
-        sorted_tasks = sorted(filter(lambda x: x["score"] >=0,tasks), key=lambda task: task["score"], reverse=True)
+        sorted_tasks = sorted(filter(lambda x: x["score"] >= 0,tasks), key=lambda task: task["score"], reverse=True)
         if mode == "noargs":
             for task in sorted_tasks:
                 print(task["string"])
