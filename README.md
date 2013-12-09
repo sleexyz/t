@@ -2,4 +2,4 @@
 A tree-based todo list system
 
 #todo:
- - connect w/ google calendar
+ - connect w/ google calendar via googlecl
