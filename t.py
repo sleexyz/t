@@ -1,97 +1,98 @@
 #!/usr/bin/env python
 
-import todo
 import os
 import json
 import sys
 import datetime
+import tabdown
 import re
 from operator import attrgetter
 from termcolor import colored
 
+## Path to list file
+PATH='/home/slee2/s'
+
+## Plugins
+plugins = [
+    {
+        "name": "task",
+        "prefixes": [("#!", "tasktime")],
+    },
+    {
+        "name": "event",
+        "prefixes": [("@", "event")],
+    },
+    {
+        "name": "default",
+        "prefixes": [("#", "header")],
+    }
+]
+
+mode = "noargs"
+
+@tabdown.on_parse
+def parse_lines(line):
+    """Takes a list of lines, returns a tree with lines of the appropriate categorization.
+    Goes through plugins and their corresponding line prefixes to determine categorization.
+    """
+    node = {}
+    splitted = re.compile('(^\W+)').split(line)
+    hasprefix = len(splitted) > 1
+    if hasprefix:
+        prefix = splitted[1]
+        body = splitted[2]
+        for plugin in plugins:
+            for prefixtup in plugin['prefixes']:
+                if prefix == prefixtup[0]:
+                    node["type"] = prefixtup[1]
+                    node["text"] = splitted
+                    return node
+    node["type"] = "text"
+    node["text"] = line
+    return node
+
 def main():
     lines = open("/home/slee2/s").readlines();
-    tree = todo.todo_parse(lines)
-    tasks = todo.get_tasks(tree)
+    tree = parse_lines(lines)
 
-    mode = "noargs"
-    if len(sys.argv) > 1:
-        mode = sys.argv[1]
             
-    for task in tasks:
-        line_color = None
-        line_highlight = None
-        line_attrs = []
-
-        string = ' '.join(task["when"]) #concat temporals
-
-        today = datetime.date.today()
-        tomorrow = datetime.date.today() + datetime.timedelta(days=1)
-
-        if string == "ASAP":
-            line_color = "cyan"
-            line_attrs.append("blink")
-            task["score"] = float("inf")
-        else:
-            year = datetime.datetime.today().year;
-
-            def populatedata():
-                nonlocal string, line_color, line_highlight, line_attrs, tomorrow, today
-                month =  None
-                day = None
-                try:
-                    month = int(task["when"][0])
-                    day = int(task["when"][1])
-                except:
-                    if string == "Later":
-                        task["score"] = float("-inf");
-                        line_color = "blue"
-                        return
-                    if string == "Today":
-                        month = today.month
-                        day = today.day
-                    elif string == "Tomorrow":
-                        month = tomorrow.month
-                        day = tomorrow.day
-                if month == None and day == None:
-                    task["score"] = 0
-                else:
-                    date = datetime.date(year, month, day)
-                    if date == today:
-                        line_color = "red"
-                        if string != "Today":
-                            date += datetime.timedelta(days=1)
-                            string = "Today"
-                    elif date == tomorrow:
-                        line_color = "yellow"
-                        if string !="Tomorrow":
-                            date += datetime.timedelta(days=1)
-                            string = "Tomorrow"
-                    else:
-                        inbetween = date - today
-                        string = "In {} days".format(inbetween.days)
-                    task["score"] = 1.0/date.toordinal()
-            populatedata();
-
-                    
-
-        string = string + '\t\t'
-        what = task["what"].copy()
-        what[-1] = colored(task["what"][-1],"green")
-        string = string + '\t'.join(what)
-
-        task['string'] = (colored(string, line_color, line_highlight, attrs=line_attrs))
-
     if mode == "--all":
-        for task in sorted(tasks, key=lambda task: task["score"], reverse=True):
-            print(task["string"])
-    else:
-        sorted_tasks = sorted(filter(lambda x: x["score"] >= 0,tasks), key=lambda task: task["score"], reverse=True)
-        if mode == "noargs":
-            for task in sorted_tasks:
-                print(task["string"])
-        elif mode == "--now":
-            print(' '.join(sorted_tasks[0]["what"]))
+        print("--all")
+    elif mode == "--now":
+        print("--now");
+    elif mode == "noargs":
+        print(json.dumps(tree, sort_keys=True,indent=4))
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        mode = sys.argv[1]
     main()
+
+#TEMPORARY
+def get_tasks(tree):
+
+    """Takes tree, returns list of tasks
+    task = {"what": [], "when": []}
+    """
+    tasks = []
+    def _list(node, what, when):
+            if node["type"] == "what":
+                    what.append(node["text"])
+
+            elif node["type"] == "when":
+                    when.append(node["text"])
+
+            if not "children" in node.keys():
+                    if len(what) == 0:
+                            return
+                    tasks.append({"what": what, "when": when})
+                    return
+
+            for child in node['children']:
+                    _when = when.copy()
+                    _what = what.copy()
+                    _list(child, _what, _when)
+
+    for child in tree["children"]:
+            _list(child, [], [])
+    return tasks

@@ -20,5 +20,5 @@ t is a python program built off of [tabdown](https://github.com/freshdried/tabdo
 <br>
 
 ######todo:
- - implement middleware style parser
- - implement calendar parser, todo parser, list parser
+- figure out how to do functional programming in python
+
