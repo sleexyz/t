@@ -17,6 +17,7 @@ plugins = [
     {
         "name": "task",
         "prefixes": [("#!", "tasktime")],
+
     },
     {
         "name": "event",
@@ -31,7 +32,7 @@ plugins = [
 mode = "noargs"
 
 @tabdown.on_parse
-def parse_lines(line):
+def populate_tree(line):
     """Takes a list of lines, returns a tree with lines of the appropriate categorization.
     Goes through plugins and their corresponding line prefixes to determine categorization.
     """
@@ -53,7 +54,7 @@ def parse_lines(line):
 
 def main():
     lines = open("/home/slee2/s").readlines();
-    tree = parse_lines(lines)
+    tree = populate_tree(lines)
 
             
     if mode == "--all":
@@ -61,7 +62,7 @@ def main():
     elif mode == "--now":
         print("--now");
     elif mode == "noargs":
-        print(json.dumps(tree, sort_keys=True,indent=4))
+        print(json.dumps(tree, sort_keys=True, indent=4))
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -69,8 +70,7 @@ if __name__ == "__main__":
     main()
 
 #TEMPORARY
-def get_tasks(tree):
-
+def parse_tree(tree):
     """Takes tree, returns list of tasks
     task = {"what": [], "when": []}
     """
