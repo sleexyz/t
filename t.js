@@ -1,5 +1,7 @@
+#!/usr/bin/env node
+
 var fs = require('fs'),
-    tabdown = require('./tabdown');
+    tabdown = require('tabdown');
 
 var path = '/home/slee2/s'
 
