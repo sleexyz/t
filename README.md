@@ -20,5 +20,5 @@ t is a program built off of [tabdown](https://github.com/freshdried/tabdown.git)
 <br>
 
 ######todo:
-- fully port t over to js
-- port tabdown to js
+- get t working again
+- make installable via `npm install -g`?
