@@ -21,4 +21,7 @@ t is a program built off of [tabdown](https://github.com/freshdried/tabdown.git)
 
 ######todo:
 - get t working again
+- make t into own node module
+- make a script that uses t module
+- get visionmedias's parameters thing
 - make installable via `npm install -g`?
