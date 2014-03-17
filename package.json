@@ -1,0 +1,19 @@
+{
+	"name": "t",
+	"version": "4.0.0",
+	"description": "tab-structured trees to plan for today and tomorrow",
+	"main": "index.js",
+	"bin": {
+		"t": "bin/t.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/freshdried/t.git"
+	},
+	"author": {
+		"name": "Sean Lee",
+		"email": "freshdried@gmail.com",
+		"url": "sean.lee.mx"
+	},
+	"license": "MIT"
+}
