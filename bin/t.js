@@ -4,7 +4,7 @@ var fs = require('fs'),
     colors = require('colors'),
     T = require('../');
 
-var path = '/home/slee2/s'
+var path = process.env.HOME + '/s';
 
 var plugins = {
 	"todo": new (require('../lib/todo')),

@@ -1,19 +1,33 @@
 {
-	"name": "t",
-	"version": "4.0.0",
-	"description": "tab-structured trees to plan for today and tomorrow",
-	"main": "index.js",
-	"bin": {
-		"t": "bin/t.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/freshdried/t.git"
-	},
-	"author": {
-		"name": "Sean Lee",
-		"email": "freshdried@gmail.com",
-		"url": "sean.lee.mx"
-	},
-	"license": "MIT"
+  "name": "t",
+  "version": "4.1.0",
+  "description": "tab-structured trees to plan for today and tomorrow",
+  "main": "index.js",
+  "bin": {
+    "t": "bin/t.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/freshdried/t.git"
+  },
+  "author": "Sean Lee <freshdried@gmail.com> (sean.lee.mx)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/freshdried/t/issues"
+  },
+  "homepage": "https://github.com/freshdried/t",
+  "dependencies": {
+    "colors": "~0.6.2",
+    "minimist": "~0.0.8",
+    "moment": "~2.5.1",
+    "sprintf-js": "~0.0.7",
+    "tabdown": "~0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "productivity"
+  ]
 }
