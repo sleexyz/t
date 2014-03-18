@@ -33,7 +33,8 @@ var otherfuncs = (function() {
     		"about": about,
 	}
 })();
-var noargsfunction = otherfuncs.help;
+//var noargsfunction = otherfuncs.help;
+var noargsfunction = plugins.todo.functions.print;
 
 function parseargs(argv) {
 	if (argv.length == 0) {
@@ -55,7 +56,7 @@ function parseargs(argv) {
 				func(argv.splice(2));
 			} else {
 				console.error('Error parsing options for ' + argv[0] + '...');
-				console.log(plugins[argv[0]].help);
+				plugins[argv[0]].help();
 			}
 		} else {
 			console.error('Error parsing options...');

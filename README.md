@@ -20,9 +20,8 @@ t is text-based organization system using [tabdown](https://github.com/freshdrie
 <br>
 
 ######todo:
-- cal
- - google calendar integration
 - get list formatted
 - make it use homedirectory/s (and then maybe a config file)
 - add to npm with install -g stuff
 - add deps to package.json
+- document usage in txts and then pipe
