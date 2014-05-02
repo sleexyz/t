@@ -21,3 +21,4 @@ t is text-based organization system using [tabdown](https://github.com/freshdrie
 
 ######todo:
 - document usage in txts and then pipe
+- port to tabdown 0.0.3
