@@ -2,13 +2,13 @@
 <br>
 <br>
 
-<b>t</b>ab structured
+<b>t</b> ab structured
 
-<b>t</b>rees to plan for 
+<b>t</b> rees to plan for 
 
-<b>t</b>oday and 
+<b>t</b> oday and 
 
-<b>t</b>omorrow.
+<b>t</b> omorrow.
 <br>
 <br>
 <br>
