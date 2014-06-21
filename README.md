@@ -20,5 +20,4 @@ t is text-based organization system using [tabdown](https://github.com/freshdrie
 <br>
 
 ######todo:
-- document usage in txts and then pipe
-- fix calendar to include time
+- fix  t list to format/parse tree

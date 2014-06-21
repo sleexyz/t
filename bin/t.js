@@ -56,7 +56,7 @@ function parseargs(argv) {
 				func(argv.splice(2));
 			} else {
 				console.error('Error parsing options for ' + argv[0] + '...');
-				plugins[argv[0]].help();
+				plugins[argv[0]].functions.help();
 			}
 		} else {
 			console.error('Error parsing options...');
