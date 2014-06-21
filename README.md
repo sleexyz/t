@@ -18,6 +18,5 @@ t is text-based organization system using [tabdown](https://github.com/freshdrie
 <br>
 <br>
 <br>
-
-######todo:
-- fix  t list to format/parse tree
+####todo:
+- document usage on github
